@@ -3,40 +3,6 @@ import { StudentServices } from './student.service';
 import { z } from 'zod';
 import studentValidationSchema from './student.validation';
 
-const createStudent = async (req: Request, res: Response) => {
-  try {
-    const { student: studentData } = req.body;
-
-    // validation using joi
-    // const { error, value } = studentValidationSchema.validate(studentData);
-
-    /* if (error) {
-      res.status(500).json({
-        success: false,
-        message: error.message,
-        error,
-      });
-    }
- */
-
-    // parse by zod
-    const studentParsedData = studentValidationSchema.parse(studentData);
-    const result = await StudentServices.createStudentIntoDB(studentData);
-
-    res.status(200).json({
-      success: true,
-      message: 'Student created successfully',
-      data: result,
-    });
-  } catch (err: any) {
-    res.status(500).json({
-      success: false,
-      message: err.message,
-      error: err,
-    });
-  }
-};
-
 const getAllStudents = async (req: Request, res: Response) => {
   try {
     const result = await StudentServices.getAllStudentsFromDB();
@@ -65,7 +31,6 @@ const getSingleStudent = async (req: Request, res: Response) => {
 };
 
 export const StudentControllers = {
-  createStudent,
   getAllStudents,
   getSingleStudent,
 };
